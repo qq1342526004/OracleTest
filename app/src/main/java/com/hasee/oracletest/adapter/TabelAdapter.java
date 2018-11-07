@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.hasee.oracletest.MainActivity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static com.hasee.oracletest.MainActivity.MAX_ITEM_COUNT;
@@ -83,7 +84,7 @@ public class TabelAdapter extends BaseAdapter {
     /*
      * 实现表格的行单元
      * */
-    public static class TabelRow {
+    public static class TabelRow{
         private TabelCell[] cells;
         public TabelRow(TabelCell[] cells){
             this.cells = cells;
@@ -118,5 +119,8 @@ public class TabelAdapter extends BaseAdapter {
             this.height = height;
         }
 
+        public String getValue() {
+            return value;
+        }
     }
 }

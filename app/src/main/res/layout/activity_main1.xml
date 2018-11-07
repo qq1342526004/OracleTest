@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolBar"
+            android:id="@+id/toolBar_main1"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -25,14 +25,26 @@
             android:layout_height="match_parent"
             android:fillViewport="true"
             android:layout_above="@id/bottom_layout"
-            android:layout_below="@id/toolBar">
+            android:layout_below="@id/toolBar_main1">
 
-            <ListView
-                android:id="@+id/listView"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ListView
+                    android:id="@+id/listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            </ListView>
+                </ListView>
+                <TextView
+                    android:id="@+id/empty_listView_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="暂无数据显示"
+                    android:textSize="20sp"
+                    android:gravity="center"/>
+            </LinearLayout>
         </HorizontalScrollView>
 
         <LinearLayout

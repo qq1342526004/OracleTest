@@ -1,8 +1,8 @@
 package com.hasee.oracletest;
 
-import net.sf.json.JSONObject;
+import net.sf.json.JSONArray;
 
 public interface MyListener {
     void sendMessageToServer(String message);
-    void sendMessage(JSONObject jsonObject);
+    void sendMessage(JSONArray jsonArray);
 }
