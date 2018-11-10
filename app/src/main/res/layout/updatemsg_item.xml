@@ -6,7 +6,8 @@
         android:id="@+id/updatemsg_item_tv_key"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:gravity="center"/>
     <EditText
         android:id="@+id/updatemsg_item_et_value"
         android:layout_width="0dp"

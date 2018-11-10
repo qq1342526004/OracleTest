@@ -74,7 +74,7 @@ public class TabelAdapter extends BaseAdapter {
                 cellTextView.setLines(1);
                 cellTextView.setGravity(Gravity.CENTER);
                 cellTextView.setText(cell.value);
-//                cellTextView.setBackgroundColor(Color.BLACK);
+                cellTextView.setBackgroundColor(Color.parseColor("#EAEAEA"));
                 addView(cellTextView,layoutParams);
             }
 //            this.setBackgroundColor(Color.WHITE);//背景白色，利用空隙来实现边框
@@ -121,6 +121,14 @@ public class TabelAdapter extends BaseAdapter {
 
         public String getValue() {
             return value;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public int getHeight() {
+            return height;
         }
     }
 }

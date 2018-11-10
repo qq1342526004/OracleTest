@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HandleDialog extends DialogFragment {
+    private static final String TAG = "HandleDialog";
     private ListView handleListView;
     private ArrayAdapter<String> adapter;
     private List<String> lists = new ArrayList<>();
@@ -71,10 +73,20 @@ public class HandleDialog extends DialogFragment {
                 case 2:
                     JSONArray jsonArray = new JSONArray();
                     jsonArray.add("5");//或者使用主码
-//                    for (int j = 0; j < stringList.size(); j++) {
-//                        jsonArray.add(stringList.get(i).get(0)+"="+"");
-//                    }
-                    listener.sendMessageToServer(jsonArray.toString());
+                    StringBuffer sql = new StringBuffer();
+                    sql.append("delete from ");
+                    sql.append("student");
+                    sql.append(" ");
+                    sql.append("where");
+                    sql.append(" ");
+                    for (int j = 0; j < stringList.size(); j++) {
+                        sql.append(stringList.get(j).get(0)+"="+"'"+stringList.get(j).get(1)+"'");
+                        if(j != stringList.size()-1){
+                            sql.append(",");
+                        }
+                    }
+                    Log.d(TAG, "onItemClick: "+sql.toString());
+//                    listener.sendMessageToServer(jsonArray.toString());
                     break;
             }
         }

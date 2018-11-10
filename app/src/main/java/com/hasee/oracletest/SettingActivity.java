@@ -25,6 +25,7 @@ public class SettingActivity extends AppCompatActivity {
         ip_et = (EditText)findViewById(R.id.ip_et);
         ip_et.setHint("当前IP:"+SocketUtil.IP);
         port_et = (EditText)findViewById(R.id.port_et);
+        port_et.setHint("当前PORT:"+SocketUtil.PORT);
         submit = (Button)findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override

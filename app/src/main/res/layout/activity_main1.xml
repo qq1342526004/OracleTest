@@ -31,6 +31,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/tabelName_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
                 <ListView
                     android:id="@+id/listView"
                     android:layout_width="match_parent"
@@ -62,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_margin="8dp"
+                android:layout_margin="5dp"
                 android:text="首页"
                 android:textColor="#fff"/>
 
@@ -72,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_margin="8dp"
+                android:layout_margin="5dp"
                 android:text="上一页"
                 android:textColor="#fff"/>
 
@@ -82,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_margin="8dp"
+                android:layout_margin="5dp"
                 android:text="下一页"
                 android:textColor="#fff"/>
 
@@ -92,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_margin="8dp"
+                android:layout_margin="5dp"
                 android:text="尾页"
                 android:textColor="#fff"/>
 
@@ -100,9 +107,9 @@
                 android:id="@+id/index_page"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:gravity="center"
-                android:layout_margin="8dp"
+                android:layout_margin="5dp"
                 android:inputType="number"
                 android:hint="1/1"
                 android:background="@null"
@@ -114,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_margin="8dp"
+                android:layout_margin="5dp"
                 android:text="跳转"
                 android:textColor="#fff"/>
         </LinearLayout>
