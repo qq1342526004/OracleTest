@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/select_item_tv_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="id" />
+
+        <TextView
+            android:id="@+id/select_item_tv_condition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="="/>
+
+        <EditText
+            android:id="@+id/select_item_et"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:hint="请输入条件值"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/select_item_button_conditon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AND"
+            android:textColor="#fff"
+            android:background="#aa66cc"/>
+        <Button
+            android:id="@+id/select_item_button_delect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="删除"
+            android:textColor="#fff"
+            android:background="#cc0000"/>
+    </LinearLayout>
+</LinearLayout>

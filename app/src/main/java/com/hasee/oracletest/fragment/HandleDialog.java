@@ -29,6 +29,7 @@ public class HandleDialog extends DialogFragment {
     private MyListener listener;
     private JSONArray handle_message_json = new JSONArray();
     private List<List<String>> stringList;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -42,8 +43,8 @@ public class HandleDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.handle_dialog,container,false);
         savedInstanceState = this.getArguments();
         stringList = (List<List<String>>) savedInstanceState.getSerializable("showmsg_item");
-        handleListView = (ListView)view.findViewById(R.id.handle_listView);
         initList();
+        handleListView = (ListView)view.findViewById(R.id.handle_listView);
         adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,lists);
         handleListView.setAdapter(adapter);
         handleListView.setOnItemClickListener(onItemClickListener);
@@ -80,8 +81,12 @@ public class HandleDialog extends DialogFragment {
                     sql.append("where");
                     sql.append(" ");
                     for (int j = 0; j < stringList.size(); j++) {
-                        sql.append(stringList.get(j).get(0)+"="+"'"+stringList.get(j).get(1)+"'");
-                        if(j != stringList.size()-1){
+                        if("INT".equals(stringList.get(j).get(0))){//列
+                            sql.append(stringList.get(j).get(1)+"="+stringList.get(j).get(2));
+                        }else{
+                            sql.append(stringList.get(j).get(1)+"="+"'"+stringList.get(j).get(2)+"'");
+                        }
+                        if(j != stringList.get(j).size()-1){
                             sql.append(",");
                         }
                     }

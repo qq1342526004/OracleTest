@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="toolBar_bg">#327ac9</color>
+    <color name="tabel_attribute">#FFFAF0</color>
     <color name="tabel_key">#9DD3FA</color>
     <color name="tabel_value">#FAFFEB</color>
+    <color name="tabelRow_tabelName">#757171</color>
+    <color name="tabelRow_preview">#ccffff</color>
+    <color name="tabelRow_next">#66ffff</color>
 </resources>

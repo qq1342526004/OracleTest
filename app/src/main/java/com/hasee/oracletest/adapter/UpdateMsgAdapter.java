@@ -1,6 +1,8 @@
 package com.hasee.oracletest.adapter;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,16 +11,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hasee.oracletest.R;
+import com.hasee.oracletest.fragment.UpdateFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UpdateMsgAdapter extends BaseAdapter {
     private Context mContext;
     private List<List<String>> stringList;
+//    String[] strings;
 
     public UpdateMsgAdapter(Context mContext,List<List<String>> stringList){
         this.mContext = mContext;
         this.stringList = stringList;
+        UpdateFragment.strings = new String[this.stringList.size()];
     }
 
     @Override
@@ -39,7 +45,7 @@ public class UpdateMsgAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         View view;
-        UpdateMsgAdapter.ViewHolder viewHolder;
+        final UpdateMsgAdapter.ViewHolder viewHolder;
         if(convertView == null){
             view = LayoutInflater.from(mContext).inflate(R.layout.updatemsg_item,viewGroup,false);
             viewHolder = new UpdateMsgAdapter.ViewHolder();
@@ -50,13 +56,31 @@ public class UpdateMsgAdapter extends BaseAdapter {
             view = convertView;
             viewHolder = (UpdateMsgAdapter.ViewHolder) view.getTag();
         }
-        viewHolder.textView_key.setText(stringList.get(i).get(0));
-        viewHolder.textView_value.setText(stringList.get(i).get(1));
+        viewHolder.position = i;
+        viewHolder.textView_key.setHint(stringList.get(i).get(0));
+        viewHolder.textView_value.setHint(stringList.get(i).get(1));
+        viewHolder.textView_value.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                UpdateFragment.strings[viewHolder.position] = editable.toString();
+            }
+        });
         return view;
     }
 
     class ViewHolder{
         TextView textView_key;
         EditText textView_value;
+        int position;
     }
 }

@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements MyListener {
     public static int indexNumber = 0;//索引号
     public static final int MAX_ITEM_COUNT = 10;//一页最多多少数据
     private int pageNumber;//总页数
+    TabelAdapter.TabelRow tabelNameRow;//表头
+    JSONArray colAttributeJSONArray;
     //Util
     private SocketUtil socketUtil = null;
     private Myhandler myhandler = new Myhandler();
@@ -127,8 +129,12 @@ public class MainActivity extends AppCompatActivity implements MyListener {
                 JSONArray jsonArray = new JSONArray();
                 jsonArray.add(3);
                 sendMessageToServer(jsonArray.toString());
-//                selectShow("");
-//                adapter.notifyDataSetChanged();
+                break;
+            case R.id.filter_menu:
+//                selectFragment = new SelectFragment();
+//                selectFragment.show(getSupportFragmentManager(),"select_dialog");
+                Intent intent = new Intent(MainActivity.this,SelectActivity.class);
+                startActivity(intent);
                 break;
         }
         return true;
@@ -153,14 +159,14 @@ public class MainActivity extends AppCompatActivity implements MyListener {
                     indexNumber = 0;
                     indexPage.setHint(1 + "/" + pageNumber);
                     adapter.notifyDataSetChanged();
-                    showToast("first");
+                    showToast("首页");
                     break;
                 case R.id.preview_page://上一页
                     if (indexNumber > 0) {
                         indexNumber--;
                         adapter.notifyDataSetChanged();
                         indexPage.setHint((indexNumber + 1) + "/" + pageNumber);
-                        showToast("preView");
+                        showToast("上一页");
                     }
                     break;
                 case R.id.next_page://下一页
@@ -168,14 +174,14 @@ public class MainActivity extends AppCompatActivity implements MyListener {
                         indexNumber++;
                         adapter.notifyDataSetChanged();
                         indexPage.setHint((indexNumber + 1) + "/" + pageNumber);
-                        showToast("next");
+                        showToast("下一页");
                     }
                     break;
                 case R.id.last_page://尾页
                     indexNumber = pageNumber-1;
                     indexPage.setHint(pageNumber + "/" + pageNumber);
                     adapter.notifyDataSetChanged();
-                    showToast("last");
+                    showToast("尾页");
                     break;
                 case R.id.jump_page://跳页
                     if (!"".equals(indexPage.getText().toString().trim())&&(!"0".equals(indexPage.getText().toString().trim()))) {
@@ -185,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
                             indexPage.setHint(number + "/" + pageNumber);
                             indexPage.setText("");
                             adapter.notifyDataSetChanged();
-                            showToast("jump");
+                            showToast("跳页");
                         }
                     }
                     break;
@@ -227,7 +233,11 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         handleDialog.dismiss();
         int flag = Integer.parseInt(jsonArray.getString(0));
         Bundle bundle = new Bundle();
-        bundle.putSerializable("msg_item", (Serializable) jsonArray.get(1));
+        if(flag == 2){
+//            bundle
+        }else{
+            bundle.putSerializable("msg_item", (Serializable) jsonArray.get(1));
+        }
         switch (flag){
             case 0:
                 showMsgFragment = new ShowMsgFragment();
@@ -239,6 +249,10 @@ public class MainActivity extends AppCompatActivity implements MyListener {
                 updateFragment.setArguments(bundle);
                 updateFragment.show(getSupportFragmentManager(),"update_dialog");
                 break;
+//            case 2:
+//                SelectItemDialog selectItemDialog = new SelectItemDialog();
+//                selectItemDialog.show(getSupportFragmentManager(),"selectItem_dialog");
+//                break;
         }
     }
 
@@ -250,10 +264,11 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             i = i+MAX_ITEM_COUNT*indexNumber;//ListView当前位置
             List<List<String>> stringList = new ArrayList<>();
-            for (int j = 0; j < list.get(0).getSize(); j++) {
-                List<String> strings = new ArrayList<>();
-                strings.add(list.get(0).getCellValue(j).getValue());
-                strings.add(list.get(i).getCellValue(j).getValue());
+            for (int j = 0; j < tabelNameRow.getSize(); j++) {
+                List<String> strings = new ArrayList<>();//第j列
+                strings.add(colAttributeJSONArray.getString(j));//列属性
+                strings.add(tabelNameRow.getCellValue(j).getValue());//列名
+                strings.add(list.get(i).getCellValue(j).getValue());//对应值
                 stringList.add(strings);
             }
             Bundle bundle = new Bundle();
@@ -286,30 +301,14 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         }
     }
 
-
-    public void checkButton() {
-        if (indexNumber <= 0) {//索引值<=0
-            previewPage.setEnabled(false);//上一页不可用
-            indexPage.setHint(1 + "/" + pageNumber);
-        } else {
-            nextPage.setEnabled(true);//否则下一页可用
-            indexPage.setHint((indexNumber + 1) + "/" + pageNumber);
-        }
-
-        if (list.size() - indexNumber * MAX_ITEM_COUNT <= MAX_ITEM_COUNT) {//尾页了
-            nextPage.setEnabled(false);//下一页不可用
-        } else {//否则均可用
-            previewPage.setEnabled(true);
-            nextPage.setEnabled(true);
-        }
-    }
-
-
     private void selectShow(String receive_message) {
 //        receive_message = "";
         JSONArray jsonArray = JSONArray.fromObject(receive_message);
-        JSONArray colName = jsonArray.getJSONArray(1);//列名JSONArray
-        Log.d(TAG, "init: " + colName.toString());
+        //初始化每一列对应的属性
+        colAttributeJSONArray = jsonArray.getJSONArray(1);
+        //初始化列名
+        JSONArray colName = jsonArray.getJSONArray(2);//列名JSONArray
+//        Log.d(TAG, "init: " + colName.toString());
         int colNameLength = colName.size();
         int width = this.getWindowManager().getDefaultDisplay().getWidth() / colName.size();
         //清空list中的数据
@@ -320,13 +319,12 @@ public class MainActivity extends AppCompatActivity implements MyListener {
             cellColName[i] = new TabelAdapter.TabelCell(colName.getString(i),
                     width + 8 * i, LinearLayout.LayoutParams.MATCH_PARENT);
         }
-
         //定义表头数据
         tabelNameLayout = (LinearLayout)findViewById(R.id.tabelName_layout);
-        TabelAdapter.TabelRow tabelRow = new TabelAdapter.TabelRow(cellColName);
+        tabelNameRow = new TabelAdapter.TabelRow(cellColName);
         //把表头加入tabelNameLayout
-        for (int i = 0; i < tabelRow.getSize(); i++) {//逐个将单元格添加到行
-            TabelAdapter.TabelCell cell = tabelRow.getCellValue(i);
+        for (int i = 0; i < tabelNameRow.getSize(); i++) {//逐个将单元格添加到行
+            TabelAdapter.TabelCell cell = tabelNameRow.getCellValue(i);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(cell.getWidth(),cell.getHeight());//按照单元格指定大小设置空间
             layoutParams.setMargins(0,0,1,1);//预留空隙制造边框
             //设置单元格中的数据以及排版
@@ -335,12 +333,14 @@ public class MainActivity extends AppCompatActivity implements MyListener {
             cellTextView.setGravity(Gravity.CENTER);
             cellTextView.setText(cell.getValue());
             cellTextView.setTextSize(20);
-            cellTextView.setBackgroundColor(Color.parseColor("#00EE76"));
+            cellTextView.setTextColor(Color.WHITE);
+//            cellTextView.setBackgroundColor(Color.parseColor("#00EE76"));
+            cellTextView.setBackgroundResource(R.color.tabelRow_tabelName);
             tabelNameLayout.addView(cellTextView,layoutParams);
         }
 
         //定义行数据
-        for (int i = 2; i < jsonArray.size(); i++) {//从2开始取对象
+        for (int i = 3; i < jsonArray.size(); i++) {//从3开始取对象
             JSONObject rowObject = jsonArray.getJSONObject(i);//行对象
             TabelAdapter.TabelCell[] cellRowObject = new TabelAdapter.TabelCell[colNameLength];//一行中单元格的个数;
             for (int j = 0; j < colNameLength; j++) {

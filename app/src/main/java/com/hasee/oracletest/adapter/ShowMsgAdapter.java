@@ -42,6 +42,7 @@ public class ShowMsgAdapter extends BaseAdapter {
         if(convertView == null){
             view = LayoutInflater.from(mContext).inflate(R.layout.showmsg_item,viewGroup,false);
             viewHolder = new ViewHolder();
+            viewHolder.textView_attribute = (TextView)view.findViewById(R.id.showmsg_item_tv_attribute);
             viewHolder.textView_key = (TextView)view.findViewById(R.id.showmsg_item_tv_key);
             viewHolder.textView_value = (TextView)view.findViewById(R.id.showmsg_item_tv_value);
             view.setTag(viewHolder);
@@ -49,12 +50,14 @@ public class ShowMsgAdapter extends BaseAdapter {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.textView_key.setText(stringList.get(i).get(0));
-        viewHolder.textView_value.setText(stringList.get(i).get(1));
+        viewHolder.textView_attribute.setText(stringList.get(i).get(0));
+        viewHolder.textView_key.setText(stringList.get(i).get(1));
+        viewHolder.textView_value.setText(stringList.get(i).get(2));
         return view;
     }
 
     class ViewHolder{
+        TextView textView_attribute;
         TextView textView_key;
         TextView textView_value;
     }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <include
+        android:id="@+id/selectFragment_titleLayout"
+        layout="@layout/toolbar_layout"/>
+    <ListView
+        android:id="@+id/selectFragment_listview"
+        android:layout_below="@id/selectFragment_titleLayout"
+        android:layout_above="@id/selectFragment_bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+    <LinearLayout
+        android:id="@+id/selectFragment_bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/selectFragment_button_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#46b7ef"
+            android:layout_marginBottom="5dp"
+            android:text="添加条件"
+            android:textColor="#fff"/>
+        <Button
+            android:id="@+id/selectFragment_button_execute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#99cc00"
+            android:text="执行查询"
+            android:textColor="#fff"/>
+    </LinearLayout>
+</RelativeLayout>

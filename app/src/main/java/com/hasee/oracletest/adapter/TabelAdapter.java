@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hasee.oracletest.MainActivity;
+import com.hasee.oracletest.R;
 
 import java.io.Serializable;
 import java.util.List;
@@ -74,7 +75,8 @@ public class TabelAdapter extends BaseAdapter {
                 cellTextView.setLines(1);
                 cellTextView.setGravity(Gravity.CENTER);
                 cellTextView.setText(cell.value);
-                cellTextView.setBackgroundColor(Color.parseColor("#EAEAEA"));
+//                cellTextView.setBackgroundColor(Color.parseColor("#EAEAEA"));
+                cellTextView.setBackgroundResource(R.color.tabelRow_preview);
                 addView(cellTextView,layoutParams);
             }
 //            this.setBackgroundColor(Color.WHITE);//背景白色，利用空隙来实现边框
