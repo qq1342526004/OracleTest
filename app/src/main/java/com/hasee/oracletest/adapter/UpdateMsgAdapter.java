@@ -13,18 +13,19 @@ import android.widget.TextView;
 import com.hasee.oracletest.R;
 import com.hasee.oracletest.fragment.UpdateFragment;
 
+import net.sf.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class UpdateMsgAdapter extends BaseAdapter {
     private Context mContext;
     private List<List<String>> stringList;
-//    String[] strings;
 
     public UpdateMsgAdapter(Context mContext,List<List<String>> stringList){
         this.mContext = mContext;
         this.stringList = stringList;
-        UpdateFragment.strings = new String[this.stringList.size()];
     }
 
     @Override
@@ -49,6 +50,7 @@ public class UpdateMsgAdapter extends BaseAdapter {
         if(convertView == null){
             view = LayoutInflater.from(mContext).inflate(R.layout.updatemsg_item,viewGroup,false);
             viewHolder = new UpdateMsgAdapter.ViewHolder();
+            viewHolder.textView_attribute = (TextView)view.findViewById(R.id.updatemsg_item_tv_attribute);
             viewHolder.textView_key = (TextView)view.findViewById(R.id.updatemsg_item_tv_key);
             viewHolder.textView_value = (EditText)view.findViewById(R.id.updatemsg_item_et_value);
             view.setTag(viewHolder);
@@ -57,9 +59,11 @@ public class UpdateMsgAdapter extends BaseAdapter {
             viewHolder = (UpdateMsgAdapter.ViewHolder) view.getTag();
         }
         viewHolder.position = i;
-        viewHolder.textView_key.setHint(stringList.get(i).get(0));
-        viewHolder.textView_value.setHint(stringList.get(i).get(1));
+        viewHolder.textView_attribute.setText(stringList.get(i).get(0));
+        viewHolder.textView_key.setText(stringList.get(i).get(1));
+        viewHolder.textView_value.setHint(stringList.get(i).get(2));
         viewHolder.textView_value.addTextChangedListener(new TextWatcher() {
+            JSONObject jsonObject = new JSONObject();
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -72,13 +76,18 @@ public class UpdateMsgAdapter extends BaseAdapter {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                UpdateFragment.strings[viewHolder.position] = editable.toString();
+                if(!"".equals(editable.toString().trim())){
+                    UpdateFragment.hashMap.put(viewHolder.position,editable.toString());
+                }else{
+                    UpdateFragment.hashMap.remove(viewHolder.position);
+                }
             }
         });
         return view;
     }
 
     class ViewHolder{
+        TextView textView_attribute;
         TextView textView_key;
         EditText textView_value;
         int position;

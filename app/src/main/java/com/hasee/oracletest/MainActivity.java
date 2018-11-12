@@ -233,11 +233,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         handleDialog.dismiss();
         int flag = Integer.parseInt(jsonArray.getString(0));
         Bundle bundle = new Bundle();
-        if(flag == 2){
-//            bundle
-        }else{
-            bundle.putSerializable("msg_item", (Serializable) jsonArray.get(1));
-        }
+        bundle.putSerializable("msg_item", (Serializable) jsonArray.get(1));
         switch (flag){
             case 0:
                 showMsgFragment = new ShowMsgFragment();
@@ -249,10 +245,6 @@ public class MainActivity extends AppCompatActivity implements MyListener {
                 updateFragment.setArguments(bundle);
                 updateFragment.show(getSupportFragmentManager(),"update_dialog");
                 break;
-//            case 2:
-//                SelectItemDialog selectItemDialog = new SelectItemDialog();
-//                selectItemDialog.show(getSupportFragmentManager(),"selectItem_dialog");
-//                break;
         }
     }
 

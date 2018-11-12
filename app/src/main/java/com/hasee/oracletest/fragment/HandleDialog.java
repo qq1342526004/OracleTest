@@ -86,7 +86,7 @@ public class HandleDialog extends DialogFragment {
                         }else{
                             sql.append(stringList.get(j).get(1)+"="+"'"+stringList.get(j).get(2)+"'");
                         }
-                        if(j != stringList.get(j).size()-1){
+                        if(j != (stringList.get(j).size()-1)){
                             sql.append(",");
                         }
                     }

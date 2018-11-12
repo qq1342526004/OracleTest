@@ -3,6 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
+        android:id="@+id/updatemsg_item_tv_attribute"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"/>
+    <TextView
         android:id="@+id/updatemsg_item_tv_key"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
