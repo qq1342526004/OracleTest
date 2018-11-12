@@ -50,6 +50,12 @@ public class AddDialog extends DialogFragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDialog().getWindow().setLayout(-1,-2 );
+    }
+
     private void init(Bundle savedInstanceState) {
         savedInstanceState = this.getArguments();//一行中列名和对应数据
         stringList = (List<List<String>>) savedInstanceState.getSerializable("add_item");
@@ -68,7 +74,7 @@ public class AddDialog extends DialogFragment {
                     sql.append(" values");
                     sql.append("(");
                     for (int i = 0; i < strings.length; i++) {
-                        if("INT".equals(strings[i])){
+                        if("INT".equalsIgnoreCase(strings[i])||"DOUBLE".equalsIgnoreCase(strings[i])||"FLOAT".equalsIgnoreCase(strings[i])){
                             sql.append(strings[i]);
                         }else{
                             sql.append("'"+strings[i]+"'");

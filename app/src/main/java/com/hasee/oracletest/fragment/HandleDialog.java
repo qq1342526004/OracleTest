@@ -51,6 +51,12 @@ public class HandleDialog extends DialogFragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDialog().getWindow().setLayout(-1,-2 );
+    }
+
     private void initList() {
         lists.add("查看数据");
         lists.add("修改数据");
@@ -81,7 +87,7 @@ public class HandleDialog extends DialogFragment {
                     sql.append("where");
                     sql.append(" ");
                     for (int j = 0; j < stringList.size(); j++) {//列数
-                        if("INT".equals(stringList.get(j).get(0))||"DOUBLE".equals(stringList.get(j).get(0))||"FLOAT".equals(stringList.get(j).get(0))){//列
+                        if("INT".equalsIgnoreCase(stringList.get(j).get(0))||"DOUBLE".equalsIgnoreCase(stringList.get(j).get(0))||"FLOAT".equalsIgnoreCase(stringList.get(j).get(0))){//列
                             sql.append(stringList.get(j).get(1)+"="+stringList.get(j).get(2));
                         }else{
                             sql.append(stringList.get(j).get(1)+"="+"'"+stringList.get(j).get(2)+"'");

@@ -69,7 +69,7 @@ public class SelectTabelNameDialog extends DialogFragment {
             sql.append(MainActivity.currentTabelName);
             jsonArray.add(sql.toString());
             jsonArray.add(list.get(i));
-//            MainActivity.indexNumber = 0;
+            MainActivity.indexNumber = 0;
             listener.sendMessageToServer(jsonArray.toString());
         }
     };

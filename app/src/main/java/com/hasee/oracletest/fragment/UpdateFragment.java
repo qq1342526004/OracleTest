@@ -53,6 +53,12 @@ public class UpdateFragment extends DialogFragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDialog().getWindow().setLayout(-1,-2 );
+    }
+
     public View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -65,23 +71,23 @@ public class UpdateFragment extends DialogFragment {
                         sql.append("update ");
                         sql.append(MainActivity.currentTabelName);
                         sql.append(" set ");
+                        int count = hashMap.size();
                         for (int i = 0; i < stringList.size(); i++) {
                             if (hashMap.containsKey(i)) {
-                                if ("INT".equals(stringList.get(i).get(0))) {
+                                if ("INT".equalsIgnoreCase(stringList.get(i).get(0))||"DOUBLE".equalsIgnoreCase(stringList.get(i).get(0))||"FLOAT".equalsIgnoreCase(stringList.get(i).get(0))) {
                                     sql.append(stringList.get(i).get(1) + "=" + hashMap.get(i));
                                 } else {
                                     sql.append(stringList.get(i).get(1) + "=" + "'" + hashMap.get(i) + "'");
                                 }
-                                if (i < hashMap.size()-1) {/////////
+                                if (count > 1) {
                                     sql.append(",");
-                                }else if(i>hashMap.size()-1){
-
+                                    count--;
                                 }
                             }
                         }
                         sql.append(" where ");
                         for (int j = 0; j < stringList.size(); j++) {//列数
-                            if("INT".equals(stringList.get(j).get(0))||"DOUBLE".equals(stringList.get(j).get(0))||"FLOAT".equals(stringList.get(j).get(0))){//列
+                            if("INT".equalsIgnoreCase(stringList.get(j).get(0))||"DOUBLE".equalsIgnoreCase(stringList.get(j).get(0))||"FLOAT".equalsIgnoreCase(stringList.get(j).get(0))){//列
                                 sql.append(stringList.get(j).get(1)+"="+stringList.get(j).get(2));
                             }else{
                                 sql.append(stringList.get(j).get(1)+"="+"'"+stringList.get(j).get(2)+"'");
@@ -91,8 +97,8 @@ public class UpdateFragment extends DialogFragment {
                             }
                         }
                         jsonArray.add(sql.toString());
-//                        listener.sendMessageToServer(jsonArray.toString());
-                        Log.d(TAG, "onClick: " + jsonArray.toString());
+                        listener.sendMessageToServer(jsonArray.toString());
+//                        Log.d(TAG, "onClick: " + sql.toString());
                     }
                     break;
             }

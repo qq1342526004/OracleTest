@@ -32,4 +32,10 @@ public class ShowMsgFragment extends DialogFragment {
         showMsgListView.setAdapter(adapter);
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDialog().getWindow().setLayout(-1,-2 );
+    }
 }

@@ -11,7 +11,7 @@ import java.net.Socket;
 public class SocketUtil {
     private static final String TAG = "SocketUtil";
     public static int PORT = 1234;
-    public static String IP = "111.173.119.248";
+    public static String IP = "119.101.213.61";
     private boolean flag = true;
     private Socket socket = null;
     private DataInputStream in = null;

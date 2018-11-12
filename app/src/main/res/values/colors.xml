@@ -10,4 +10,9 @@
     <color name="tabelRow_tabelName">#757171</color>
     <color name="tabelRow_preview">#EAEAEA</color>
     <color name="tabelRow_next">#66ffff</color>
+    <color name="item_key_bg">#e3effd</color>
+    <color name="item_key_text">#2c90cb</color>
+    <color name="item_attribute_bg">#F0FFF0</color>
+    <color name="item_attribute_text">#ff4444</color>
+
 </resources>

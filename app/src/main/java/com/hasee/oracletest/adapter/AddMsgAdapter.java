@@ -2,6 +2,7 @@ package com.hasee.oracletest.adapter;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,9 @@ public class AddMsgAdapter extends BaseAdapter {
         viewHolder.textView_attribute.setText(stringList.get(i).get(0));
         viewHolder.textView_key.setText(stringList.get(i).get(1));
         viewHolder.textView_key.setHint("必填项");
+        if("INT".equalsIgnoreCase(stringList.get(i).get(0))||"DOUBLE".equalsIgnoreCase(stringList.get(i).get(0))||"FLOAT".equalsIgnoreCase(stringList.get(i).get(0))){
+            viewHolder.textView_value.setInputType(InputType.TYPE_CLASS_NUMBER);
+        }
         viewHolder.textView_value.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
