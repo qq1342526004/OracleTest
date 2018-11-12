@@ -11,7 +11,7 @@ import java.net.Socket;
 public class SocketUtil {
     private static final String TAG = "SocketUtil";
     public static int PORT = 1234;
-    public static String IP = "119.101.222.82";
+    public static String IP = "111.173.119.248";
     private boolean flag = true;
     private Socket socket = null;
     private DataInputStream in = null;
@@ -52,11 +52,9 @@ public class SocketUtil {
 //                len = in.read(bytes);
 //                content.write(bytes,0,len);
 //            }while (in.available()!=0);
-            Log.d(TAG, "send_receive: "+1);
             while ((len = in.read(bytes))!= -1){
                 content.write(bytes,0,len);
             }
-            Log.d(TAG, "send_receive: "+2);
             receive_message = new String(content.toByteArray(),"UTF-8");
             return receive_message;
         }catch (Exception e){

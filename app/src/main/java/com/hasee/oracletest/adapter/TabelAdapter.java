@@ -75,7 +75,6 @@ public class TabelAdapter extends BaseAdapter {
                 cellTextView.setLines(1);
                 cellTextView.setGravity(Gravity.CENTER);
                 cellTextView.setText(cell.value);
-//                cellTextView.setBackgroundColor(Color.parseColor("#EAEAEA"));
                 cellTextView.setBackgroundResource(R.color.tabelRow_preview);
                 addView(cellTextView,layoutParams);
             }

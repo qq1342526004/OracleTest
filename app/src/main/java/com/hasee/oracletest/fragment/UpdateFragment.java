@@ -9,18 +9,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.hasee.oracletest.MainActivity;
 import com.hasee.oracletest.MyListener;
 import com.hasee.oracletest.R;
 import com.hasee.oracletest.adapter.UpdateMsgAdapter;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +63,7 @@ public class UpdateFragment extends DialogFragment {
                         jsonArray.add("6");
                         StringBuffer sql = new StringBuffer();
                         sql.append("update ");
-                        sql.append("student");
+                        sql.append(MainActivity.currentTabelName);
                         sql.append(" set ");
                         for (int i = 0; i < stringList.size(); i++) {
                             if (hashMap.containsKey(i)) {
@@ -75,23 +72,26 @@ public class UpdateFragment extends DialogFragment {
                                 } else {
                                     sql.append(stringList.get(i).get(1) + "=" + "'" + hashMap.get(i) + "'");
                                 }
-                                if (i < hashMap.size() - 1) {
+                                if (i < hashMap.size()-1) {/////////
                                     sql.append(",");
+                                }else if(i>hashMap.size()-1){
+
                                 }
                             }
                         }
                         sql.append(" where ");
-                        for (int j = 0; j < stringList.size(); j++) {
-                            if ("INT".equals(stringList.get(j).get(0))) {//列
-                                sql.append(stringList.get(j).get(1) + "=" + stringList.get(j).get(2));
-                            } else {
-                                sql.append(stringList.get(j).get(1) + "=" + "'" + stringList.get(j).get(2) + "'");
+                        for (int j = 0; j < stringList.size(); j++) {//列数
+                            if("INT".equals(stringList.get(j).get(0))||"DOUBLE".equals(stringList.get(j).get(0))||"FLOAT".equals(stringList.get(j).get(0))){//列
+                                sql.append(stringList.get(j).get(1)+"="+stringList.get(j).get(2));
+                            }else{
+                                sql.append(stringList.get(j).get(1)+"="+"'"+stringList.get(j).get(2)+"'");
                             }
-                            if (j != (stringList.get(j).size() - 1)) {
-                                sql.append(",");
+                            if(j < (stringList.size()-1)){//j<列数-1
+                                sql.append(" and ");
                             }
                         }
                         jsonArray.add(sql.toString());
+//                        listener.sendMessageToServer(jsonArray.toString());
                         Log.d(TAG, "onClick: " + jsonArray.toString());
                     }
                     break;

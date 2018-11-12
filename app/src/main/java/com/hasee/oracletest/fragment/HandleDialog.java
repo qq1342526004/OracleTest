@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.hasee.oracletest.MainActivity;
 import com.hasee.oracletest.MyListener;
 import com.hasee.oracletest.R;
 
@@ -76,22 +76,23 @@ public class HandleDialog extends DialogFragment {
                     jsonArray.add("5");//或者使用主码
                     StringBuffer sql = new StringBuffer();
                     sql.append("delete from ");
-                    sql.append("student");
+                    sql.append(MainActivity.currentTabelName);
                     sql.append(" ");
                     sql.append("where");
                     sql.append(" ");
-                    for (int j = 0; j < stringList.size(); j++) {
-                        if("INT".equals(stringList.get(j).get(0))){//列
+                    for (int j = 0; j < stringList.size(); j++) {//列数
+                        if("INT".equals(stringList.get(j).get(0))||"DOUBLE".equals(stringList.get(j).get(0))||"FLOAT".equals(stringList.get(j).get(0))){//列
                             sql.append(stringList.get(j).get(1)+"="+stringList.get(j).get(2));
                         }else{
                             sql.append(stringList.get(j).get(1)+"="+"'"+stringList.get(j).get(2)+"'");
                         }
-                        if(j != (stringList.get(j).size()-1)){
-                            sql.append(",");
+                        if(j < (stringList.size()-1)){//j<列数-1
+                            sql.append(" and ");
                         }
                     }
-                    Log.d(TAG, "onItemClick: "+sql.toString());
-//                    listener.sendMessageToServer(jsonArray.toString());
+                    jsonArray.add(sql.toString());
+//                    Log.d(TAG, "onItemClick: "+sql.toString());
+                    listener.sendMessageToServer(jsonArray.toString());
                     break;
             }
         }

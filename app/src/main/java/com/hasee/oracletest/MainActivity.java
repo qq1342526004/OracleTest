@@ -1,11 +1,13 @@
 package com.hasee.oracletest;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hasee.oracletest.adapter.TabelAdapter;
+import com.hasee.oracletest.fragment.AddDialog;
 import com.hasee.oracletest.fragment.HandleDialog;
+import com.hasee.oracletest.fragment.SelectTabelNameDialog;
 import com.hasee.oracletest.fragment.ShowMsgFragment;
 import com.hasee.oracletest.fragment.UpdateFragment;
 import com.hasee.oracletest.util.SocketUtil;
@@ -46,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements MyListener {
     private TabelAdapter adapter;//ListView适配器
     private DrawerLayout drawerLayout;
     private LinearLayout tabelNameLayout;
+    public static String currentTabelName;
+    //悬浮按钮
+    private FloatingActionButton floatButton;
     //下部页面操作
     private LinearLayout bottomLayout;
     private TextView firstPage, previewPage, nextPage, lastPage, jumpPage;
@@ -53,8 +61,9 @@ public class MainActivity extends AppCompatActivity implements MyListener {
     public static int indexNumber = 0;//索引号
     public static final int MAX_ITEM_COUNT = 10;//一页最多多少数据
     private int pageNumber;//总页数
-    TabelAdapter.TabelRow tabelNameRow;//表头
-    JSONArray colAttributeJSONArray;
+    private TabelAdapter.TabelRow tabelNameRow;//表头
+    private JSONArray colAttributeJSONArray;//属性名
+    private JSONArray colNameJSONArray;//列名
     //Util
     private SocketUtil socketUtil = null;
     private Myhandler myhandler = new Myhandler();
@@ -62,9 +71,13 @@ public class MainActivity extends AppCompatActivity implements MyListener {
     private HandleDialog handleDialog = new HandleDialog();
     private ShowMsgFragment showMsgFragment;
     private UpdateFragment updateFragment;
+    private SelectTabelNameDialog selectTabelNameDialog;
+    private AddDialog addDialog;
     //OtherActivity
     private TextView settingTv = null;
     private TextView aboutTv = null;
+    //
+    private int currentPositon = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         settingTv.setOnClickListener(onClickListener);
         aboutTv = (TextView) findViewById(R.id.about_tv);
         aboutTv.setOnClickListener(onClickListener);
+        floatButton = (FloatingActionButton)findViewById(R.id.float_button);
+        floatButton.setOnClickListener(onClickListener);
         firstPage = (TextView) findViewById(R.id.first_page);
         firstPage.setOnClickListener(onClickListener);
         previewPage = (TextView) findViewById(R.id.preview_page);
@@ -127,12 +142,10 @@ public class MainActivity extends AppCompatActivity implements MyListener {
                 break;
             case R.id.select_menu:
                 JSONArray jsonArray = new JSONArray();
-                jsonArray.add(3);
+                jsonArray.add("1");
                 sendMessageToServer(jsonArray.toString());
                 break;
             case R.id.filter_menu:
-//                selectFragment = new SelectFragment();
-//                selectFragment.show(getSupportFragmentManager(),"select_dialog");
                 Intent intent = new Intent(MainActivity.this,SelectActivity.class);
                 startActivity(intent);
                 break;
@@ -154,6 +167,20 @@ public class MainActivity extends AppCompatActivity implements MyListener {
                 case R.id.about_tv:
                     Intent intent1 = new Intent(MainActivity.this, AboutActivity.class);
                     startActivity(intent1);
+                    break;
+                case R.id.float_button://悬浮按钮
+                    List<List<String>> stringList = new ArrayList<>();
+                    for (int i = 0; i < colNameJSONArray.size(); i++) {
+                        List<String> strings = new ArrayList<>();
+                        strings.add(colAttributeJSONArray.getString(i));
+                        strings.add(colNameJSONArray.getString(i));
+                        stringList.add(strings);
+                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("add_item", (Serializable) stringList);
+                    addDialog = new AddDialog();
+                    addDialog.setArguments(bundle);
+                    addDialog.show(getSupportFragmentManager(),"add_dialog");
                     break;
                 case R.id.first_page://首页
                     indexNumber = 0;
@@ -255,6 +282,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             i = i+MAX_ITEM_COUNT*indexNumber;//ListView当前位置
+            currentPositon = i;
             List<List<String>> stringList = new ArrayList<>();
             for (int j = 0; j < tabelNameRow.getSize(); j++) {
                 List<String> strings = new ArrayList<>();//第j列
@@ -276,15 +304,44 @@ public class MainActivity extends AppCompatActivity implements MyListener {
      * 处理数据显示UI
      * */
     class Myhandler extends Handler {
+        @SuppressLint("RestrictedApi")
         @Override
         public void handleMessage(Message msg) {
             JSONArray jsonArray = (JSONArray) msg.obj;
             switch (Integer.parseInt(jsonArray.getString(0))) {
                 case 0://操作失败
+                    if (progressDialog.isShowing()) {
+                        showToast("操作失败！");
+                    }
+                    closeProgressDialog();
                     break;
                 case 1:
+                    if(addDialog != null){
+                        addDialog.dismiss();
+                    }
+                    if (showMsgFragment != null) {
+                        showMsgFragment.dismiss();
+                    }
+                    if (updateFragment != null) {
+                        updateFragment.dismiss();
+                    }
+                    closeProgressDialog();
+                    refreshData();
+                    showToast("操作成功");
+                    break;
+                case 101://查询表名
+                    closeProgressDialog();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("currentTabelName",jsonArray.getJSONArray(1));
+                    selectTabelNameDialog = new SelectTabelNameDialog();
+                    selectTabelNameDialog.setArguments(bundle);
+                    selectTabelNameDialog.show(getSupportFragmentManager(),"select_tabelName_dialog");
                     break;
                 case 103://查询全部信息
+                    if(selectTabelNameDialog != null){
+                        selectTabelNameDialog.dismiss();
+                    }
+                    floatButton.setVisibility(View.VISIBLE);
                     selectShow(jsonArray.toString());
                     adapter.notifyDataSetChanged();
                     closeProgressDialog();
@@ -293,26 +350,43 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         }
     }
 
+    /*
+    * 刷新数据（查询所有）
+    * */
+    public void refreshData(){
+        JSONArray jsonArray = new JSONArray();
+        jsonArray = new JSONArray();
+        jsonArray.add("3");
+        StringBuffer sql = new StringBuffer();
+        sql.append("select * from ");
+        sql.append(currentTabelName);
+        jsonArray.add(sql.toString());
+        jsonArray.add(currentTabelName);
+        sendMessageToServer(jsonArray.toString());
+        listView.setSelection(currentPositon);
+    }
+
+
     private void selectShow(String receive_message) {
-//        receive_message = "";
         JSONArray jsonArray = JSONArray.fromObject(receive_message);
         //初始化每一列对应的属性
         colAttributeJSONArray = jsonArray.getJSONArray(1);
         //初始化列名
-        JSONArray colName = jsonArray.getJSONArray(2);//列名JSONArray
-//        Log.d(TAG, "init: " + colName.toString());
-        int colNameLength = colName.size();
-        int width = this.getWindowManager().getDefaultDisplay().getWidth() / colName.size();
+        colNameJSONArray = jsonArray.getJSONArray(2);//列名JSONArray
+//        Log.d(TAG, "init: " + colNameJSONArray.toString());
+        int colNameLength = colNameJSONArray.size();
+        int width = this.getWindowManager().getDefaultDisplay().getWidth() / colNameJSONArray.size();
         //清空list中的数据
         list.clear();
         //定义标题
         TabelAdapter.TabelCell[] cellColName = new TabelAdapter.TabelCell[colNameLength];
         for (int i = 0; i < colNameLength; i++) {
-            cellColName[i] = new TabelAdapter.TabelCell(colName.getString(i),
+            cellColName[i] = new TabelAdapter.TabelCell(colNameJSONArray.getString(i),
                     width + 8 * i, LinearLayout.LayoutParams.MATCH_PARENT);
         }
         //定义表头数据
         tabelNameLayout = (LinearLayout)findViewById(R.id.tabelName_layout);
+        tabelNameLayout.removeAllViews();
         tabelNameRow = new TabelAdapter.TabelRow(cellColName);
         //把表头加入tabelNameLayout
         for (int i = 0; i < tabelNameRow.getSize(); i++) {//逐个将单元格添加到行
@@ -338,7 +412,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
             for (int j = 0; j < colNameLength; j++) {
                 cellRowObject[j] =
                         new TabelAdapter.TabelCell(
-                                rowObject.getString(colName.getString(j)), width + 8 * j, LinearLayout.LayoutParams.MATCH_PARENT);//每一个单元格
+                                rowObject.getString(colNameJSONArray.getString(j)), width + 8 * j, LinearLayout.LayoutParams.MATCH_PARENT);//每一个单元格
             }
             list.add(new TabelAdapter.TabelRow(cellRowObject));
         }
@@ -407,4 +481,15 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         }
     }
 
+    //按键
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if(socketUtil != null){
+                socketUtil.closeAll();
+            }
+            return true;
+        }
+        return false;
+    }
 }

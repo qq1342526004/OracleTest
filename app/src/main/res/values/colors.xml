@@ -8,6 +8,6 @@
     <color name="tabel_key">#9DD3FA</color>
     <color name="tabel_value">#FAFFEB</color>
     <color name="tabelRow_tabelName">#757171</color>
-    <color name="tabelRow_preview">#ccffff</color>
+    <color name="tabelRow_preview">#EAEAEA</color>
     <color name="tabelRow_next">#66ffff</color>
 </resources>

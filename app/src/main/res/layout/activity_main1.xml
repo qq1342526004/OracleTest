@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -13,9 +14,9 @@
             android:id="@+id/toolBar_main1"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/toolBar_bg"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="@color/toolBar_bg">
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         </android.support.v7.widget.Toolbar>
 
@@ -23,14 +24,15 @@
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
             android:layout_above="@id/bottom_layout"
-            android:layout_below="@id/toolBar_main1">
+            android:layout_below="@id/toolBar_main1"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/tabelName_layout"
                     android:layout_width="match_parent"
@@ -38,28 +40,44 @@
                     android:orientation="horizontal">
 
                 </LinearLayout>
+
                 <ListView
                     android:id="@+id/listView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                 </ListView>
+
                 <TextView
                     android:id="@+id/empty_listView_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:text="暂无数据显示"
-                    android:textSize="20sp"
-                    android:gravity="center"/>
+                    android:textSize="20sp" />
             </LinearLayout>
         </HorizontalScrollView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/float_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/bottom_layout"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom|right|end"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:visibility="invisible"
+            android:src="@drawable/ic_add"
+            app:fabSize="mini"
+            app:backgroundTint="@color/toolBar_bg" />
 
         <LinearLayout
             android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/toolBar_bg"
             android:layout_alignParentBottom="true"
+            android:background="@color/toolBar_bg"
             android:focusable="true"
             android:focusableInTouchMode="true">
 
@@ -67,63 +85,63 @@
                 android:id="@+id/first_page"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_margin="5dp"
                 android:text="首页"
-                android:textColor="#fff"/>
+                android:textColor="#fff" />
 
             <TextView
                 android:id="@+id/preview_page"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_margin="5dp"
                 android:text="上一页"
-                android:textColor="#fff"/>
+                android:textColor="#fff" />
 
             <TextView
                 android:id="@+id/next_page"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_margin="5dp"
                 android:text="下一页"
-                android:textColor="#fff"/>
+                android:textColor="#fff" />
 
             <TextView
                 android:id="@+id/last_page"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_margin="5dp"
                 android:text="尾页"
-                android:textColor="#fff"/>
+                android:textColor="#fff" />
 
             <EditText
                 android:id="@+id/index_page"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:gravity="center"
                 android:layout_margin="5dp"
-                android:inputType="number"
-                android:hint="1/1"
+                android:layout_weight="1.5"
                 android:background="@null"
-                android:textColor="#fff"/>
+                android:gravity="center"
+                android:hint="1/1"
+                android:inputType="number"
+                android:textColor="#fff" />
 
             <TextView
                 android:id="@+id/jump_page"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_margin="5dp"
                 android:text="跳转"
-                android:textColor="#fff"/>
+                android:textColor="#fff" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
