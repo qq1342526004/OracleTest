@@ -1,4 +1,4 @@
-package com.hasee.oracletest.util;
+package com.hasee.onlinedb.util;
 
 import android.util.Log;
 
@@ -11,7 +11,7 @@ import java.net.Socket;
 public class SocketUtil {
     private static final String TAG = "SocketUtil";
     public static int PORT = 1234;
-    public static String IP = "119.101.213.61";
+    public static String IP = "47.101.148.162";
     private boolean flag = true;
     private Socket socket = null;
     private DataInputStream in = null;

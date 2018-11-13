@@ -4,41 +4,46 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/addDialog_title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:background="@color/toolBar_bg">
+        <TextView
+            android:id="@+id/addDialog_back_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/ic_back"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="添加数据"
             android:textColor="#fff"
+            android:textSize="20sp"
             android:layout_margin="10dp" />
-    </LinearLayout>
+        <TextView
+            android:id="@+id/addDialog_submit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:textColor="#fff"
+            android:text="确定"/>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/addDialog_title_layout"
-        android:layout_above="@id/addDialog_button_layout">
+        android:layout_below="@id/addDialog_title_layout">
         <ListView
             android:id="@+id/add_listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         </ListView>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/addDialog_button_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_alignParentBottom="true">
-        <Button
-            android:id="@+id/addDialog_submit_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="确定"/>
     </LinearLayout>
 </RelativeLayout>

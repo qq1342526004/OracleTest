@@ -4,24 +4,41 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/updateDialog_title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:background="@color/toolBar_bg">
+        <TextView
+            android:id="@+id/updateDialog_back_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/ic_back"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="修改数据"
+            android:textSize="20dp"
             android:textColor="#fff"
             android:layout_margin="10dp" />
-    </LinearLayout>
+        <TextView
+            android:id="@+id/updateDialog_submit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:textColor="#fff"
+            android:text="确定"/>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/updateDialog_title_layout"
-        android:layout_above="@id/updateDialog_button_layout">
+        android:layout_below="@+id/updateDialog_title_layout">
         <ListView
             android:id="@+id/update_listView"
             android:layout_width="match_parent"
@@ -29,16 +46,16 @@
 
         </ListView>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/updateDialog_button_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_alignParentBottom="true">
-        <Button
-            android:id="@+id/updateDialog_submit_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="确定"/>
-    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:id="@+id/updateDialog_button_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_alignParentBottom="true">-->
+        <!--<Button-->
+            <!--android:id="@+id/updateDialog_submit_button"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="确定"/>-->
+    <!--</LinearLayout>-->
 </RelativeLayout>

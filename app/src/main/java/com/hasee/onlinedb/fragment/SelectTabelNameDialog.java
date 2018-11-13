@@ -1,4 +1,4 @@
-package com.hasee.oracletest.fragment;
+package com.hasee.onlinedb.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,11 +12,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.hasee.oracletest.MainActivity;
-import com.hasee.oracletest.MyListener;
-import com.hasee.oracletest.R;
+import com.hasee.onlinedb.App;
+import com.hasee.onlinedb.MainActivity;
+import com.hasee.onlinedb.MyListener;
+import com.hasee.onlinedb.R;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +71,7 @@ public class SelectTabelNameDialog extends DialogFragment {
             sql.append(MainActivity.currentTabelName);
             jsonArray.add(sql.toString());
             jsonArray.add(list.get(i));
+            jsonArray.add(JSONObject.fromObject(App.getInstance().getPreferences()));
             MainActivity.indexNumber = 0;
             listener.sendMessageToServer(jsonArray.toString());
         }

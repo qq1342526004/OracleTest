@@ -1,4 +1,4 @@
-package com.hasee.oracletest;
+package com.hasee.onlinedb;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

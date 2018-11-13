@@ -1,4 +1,4 @@
-package com.hasee.oracletest;
+package com.hasee.onlinedb;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

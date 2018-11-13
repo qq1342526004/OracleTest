@@ -1,7 +1,6 @@
-package com.hasee.oracletest.adapter;
+package com.hasee.onlinedb.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.hasee.oracletest.MainActivity;
-import com.hasee.oracletest.R;
+import com.hasee.onlinedb.MainActivity;
+import com.hasee.onlinedb.R;
 
-import java.io.Serializable;
 import java.util.List;
 
-import static com.hasee.oracletest.MainActivity.MAX_ITEM_COUNT;
-import static com.hasee.oracletest.MainActivity.indexNumber;
+import static com.hasee.onlinedb.MainActivity.MAX_ITEM_COUNT;
+import static com.hasee.onlinedb.MainActivity.indexNumber;
 
 public class TabelAdapter extends BaseAdapter {
     private Context mContext;
